@@ -16,3 +16,6 @@ This mini project is finished, since I'm still wirking with the tutorial.
 * Dependency Injection
 * Logging
 * experimenting with Swagger & Postman
+
+### Additional info
+* I ended up not seeding the database because I already created it via MS SQLServer Management Studio
