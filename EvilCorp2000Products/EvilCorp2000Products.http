@@ -1,0 +1,6 @@
+@EvilCorp2000Products_HostAddress = http://localhost:5289
+
+GET {{EvilCorp2000Products_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
