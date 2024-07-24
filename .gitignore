@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/EvilCorp2000Products/appsettings.Development.json
+/EvilCorp2000Products/appsettings.json
