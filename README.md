@@ -10,6 +10,8 @@ This mini project is finished, since I'm still wirking with the tutorial.
 * Attribute based Routing
 * using JSONPatchDocument
 * using AutoMapper
+* Pagination
+* Authentication for GetProductsById
 
 ### Programming concepts included 
 * Repository pattern
