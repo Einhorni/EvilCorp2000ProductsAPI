@@ -6,7 +6,7 @@ namespace EvilCorp2000Products.Services
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<Product>> GetProducts();
+        Task<(IEnumerable<Product>, PaginationMetaData)> GetProducts(string? productClass, string? searchquery, int currentPageNumber, int pageSize);
         //optional
         Task<Product?> GetProductById(int id);
         void CreateNewProduct(Product product);

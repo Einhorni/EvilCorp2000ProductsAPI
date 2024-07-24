@@ -2,20 +2,25 @@ using AutoMapper;
 using EvilCorp2000Products.DbContexts;
 using EvilCorp2000Products.Models;
 using EvilCorp2000Products.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 
 namespace EvilCorp2000Products.Controllers
 {
     [Route("api/products")]
+    
     [ApiController]
     public class ProductsController : ControllerBase
     {
         private readonly ILogger<ProductsController> _logger;
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepo;
+        const int maxProductsPageSize = 10;
 
         public ProductsController(ILogger<ProductsController> logger, IMapper mapper, IProductRepository productRepo)
         { 
@@ -28,20 +33,28 @@ namespace EvilCorp2000Products.Controllers
 
         [HttpGet]
         //Action Result: not tied to json + use the built in StatusCode Functions
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProducts(string? productClass, string? searchquery, int currentPageNumber, int pageSize)
         {
+            if (pageSize > maxProductsPageSize) { pageSize = maxProductsPageSize; }
+
             try
             {
-                return Ok(await _productRepo.GetProducts());
+                var (productsEntities, paginationMetaData) = await _productRepo.GetProducts(productClass, searchquery, currentPageNumber, pageSize);
+
+                Response.Headers["X-Pagination"] = JsonSerializer.Serialize(paginationMetaData);
+
+                return Ok(_mapper.Map<IEnumerable<ProductDTO>>(productsEntities));
             }
             catch (Exception ex) 
             {
-                _logger.LogCritical("Exception while getting Products", ex);
+                _logger.LogCritical($"Exception while getting Products {ex}");
                 return StatusCode(500, "A problem occured while handling your request");
             }
         }
 
+
         [HttpGet("{id}", Name = "GetProductById")]
+        [Authorize]
         public async Task<ActionResult<ProductDTO>> GetProductById(int id)
         {
             try
@@ -52,7 +65,7 @@ namespace EvilCorp2000Products.Controllers
                     _logger.LogInformation($"Product {id} was not found");
                     return NotFound(); 
                 }
-                return Ok(product);
+                return Ok(_mapper.Map<ProductDTO>(product));
             }
             catch (Exception ex)
             {
@@ -60,6 +73,7 @@ namespace EvilCorp2000Products.Controllers
                 return StatusCode(500, "A problem occured while handling your request");
             }
         }
+
 
         [HttpPost]
         public async Task <ActionResult<ProductDTO>> CreateNewProduct(ProductForCreationDto productForCreation)
@@ -86,7 +100,9 @@ namespace EvilCorp2000Products.Controllers
             }
         }
 
+
         [HttpPut("{productId}")]
+        
         public async Task<ActionResult> UpdateProduct(int productId, ProductForUpdateDto product)
         {
             try 

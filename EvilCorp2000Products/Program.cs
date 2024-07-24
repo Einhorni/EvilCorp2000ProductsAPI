@@ -3,6 +3,7 @@ using EvilCorp2000Products.Profiles;
 using EvilCorp2000Products.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 //serilog configuration
@@ -36,6 +37,25 @@ builder.Services.AddSingleton(new MapperConfiguration(m =>
     m.AddProfile(new ProductProfile());
 }).CreateMapper());
 
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new()
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Authentication:Issuer"],
+            ValidAudience = builder.Configuration["Authentication:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Convert.FromBase64String(builder.Configuration["Authentication:SecretForKey"]))
+        };
+    }
+    );
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,6 +69,8 @@ app.UseHttpsRedirection();
 
 //where endpoint is selected
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
