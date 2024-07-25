@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -45,6 +46,7 @@ namespace EvilCorp2000Products.Controllers
         }
 
         [HttpPost("authenticate")]
+        [ApiVersion("0.1")]
         public ActionResult<string> Authenticate(AuthenticationRequestBody authRequestBody)
         {
             //Validate username/pw

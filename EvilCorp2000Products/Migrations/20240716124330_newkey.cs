@@ -5,7 +5,7 @@
 namespace EvilCorp2000Products.Migrations
 {
     /// <inheritdoc />
-    public partial class newkey : Migration
+    public partial class Newkey : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

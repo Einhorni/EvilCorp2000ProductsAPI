@@ -21,11 +21,11 @@ namespace EvilCorp2000Products.Services
             IQueryable<Product> productCollection = _productsContext.Products;
 
             //Query zusammenbauen:
-            //falls nach Produktnamen gefiltert
+            //falls nach ProductClass gefiltert
             if (!string.IsNullOrWhiteSpace(productClass))
             {
                 productClass = productClass.Trim();
-                productCollection = productCollection.Where(p => p.ProductName == productClass);
+                productCollection = productCollection.Where(p => p.ProductClass == productClass);
             }
 
             //falls nach etwas gesucht

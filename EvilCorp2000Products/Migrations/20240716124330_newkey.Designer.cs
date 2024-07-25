@@ -13,7 +13,7 @@ namespace EvilCorp2000Products.Migrations
 {
     [DbContext(typeof(ProductsContext))]
     [Migration("20240716124330_newkey")]
-    partial class newkey
+    partial class Newkey
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

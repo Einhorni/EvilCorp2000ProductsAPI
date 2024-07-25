@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using AutoMapper;
 using EvilCorp2000Products.DbContexts;
 using EvilCorp2000Products.Models;
@@ -12,9 +13,8 @@ using System.Text.Json;
 
 namespace EvilCorp2000Products.Controllers
 {
-    [Route("api/products")]
-    
     [ApiController]
+    [Route("api/v{version:apiVersion}/products")]
     public class ProductsController : ControllerBase
     {
         private readonly ILogger<ProductsController> _logger;
@@ -30,10 +30,11 @@ namespace EvilCorp2000Products.Controllers
         }
 
 
-
+        /// <param name="productClass">Available product classes are: Furniture, Wearable, Facility, Consumable, Scrolls, Weapons</param>
         [HttpGet]
+        [ApiVersion(1)]
         //Action Result: not tied to json + use the built in StatusCode Functions
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProducts(string? productClass, string? searchquery, int currentPageNumber, int pageSize)
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProducts(string? productClass, string? searchquery, int currentPageNumber = 1, int pageSize = 4)
         {
             if (pageSize > maxProductsPageSize) { pageSize = maxProductsPageSize; }
 
@@ -54,7 +55,7 @@ namespace EvilCorp2000Products.Controllers
 
 
         [HttpGet("{id}", Name = "GetProductById")]
-        [Authorize]
+        [ApiVersion(2)]        
         public async Task<ActionResult<ProductDTO>> GetProductById(int id)
         {
             try
@@ -76,6 +77,8 @@ namespace EvilCorp2000Products.Controllers
 
 
         [HttpPost]
+        [ApiVersion(1)]
+        [Authorize]
         public async Task <ActionResult<ProductDTO>> CreateNewProduct(ProductForCreationDto productForCreation)
         {
             try 
@@ -102,7 +105,8 @@ namespace EvilCorp2000Products.Controllers
 
 
         [HttpPut("{productId}")]
-        
+        [Authorize]
+        [ApiVersion(1)]
         public async Task<ActionResult> UpdateProduct(int productId, ProductForUpdateDto product)
         {
             try 
@@ -134,6 +138,8 @@ namespace EvilCorp2000Products.Controllers
 
 
         [HttpPatch("{productId}")]
+        [Authorize]
+        [ApiVersion(1)]
         public async Task<ActionResult> PartiallyUpdateProduct(int productId, JsonPatchDocument<ProductForUpdateDto> product)
         {
             try
@@ -175,6 +181,8 @@ namespace EvilCorp2000Products.Controllers
 
 
         [HttpDelete]
+        [Authorize]
+        [ApiVersion(1)]
         public async Task <ActionResult> DeleteProduct(int productId)
         {
             try

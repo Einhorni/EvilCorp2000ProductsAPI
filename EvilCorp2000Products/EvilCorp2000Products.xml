@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EvilCorp2000Products</name>
+    </assembly>
+    <members>
+        <member name="M:EvilCorp2000Products.Controllers.ProductsController.GetProducts(System.String,System.String,System.Int32,System.Int32)">
+            <param name="productClass">Available product classes are: Furniture, Wearable, Facility, Consumable, Scrolls, Weapons</param>
+        </member>
+        <member name="T:EvilCorp2000Products.Migrations.ProductsInitialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:EvilCorp2000Products.Migrations.ProductsInitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EvilCorp2000Products.Migrations.ProductsInitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EvilCorp2000Products.Migrations.ProductsInitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:EvilCorp2000Products.Migrations.Newkey">
+            <inheritdoc />
+        </member>
+        <member name="M:EvilCorp2000Products.Migrations.Newkey.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EvilCorp2000Products.Migrations.Newkey.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EvilCorp2000Products.Migrations.Newkey.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
